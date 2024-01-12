@@ -24,13 +24,18 @@ import * as constant from './route-constant'
 // ** Default Route
 const DefaultRoute = "/home"
 const Home = lazy(() => import("../../views/home"))
-const SecondPage = lazy(() => import("../../views/SecondPage"))
+const Places = lazy(() => import("../../views/places/list/index"))
+const PlaceDetails = lazy(() => import('../../views/places/details'))
+const PlaceEdit = lazy(() => import('../../views/places/edit'))
+const Categories = lazy(() => import("../../views/categories/categories"))
+const Category = lazy(() => import("../../views/category/category"))
+const AddNewPlace = lazy(() => import("../../views/add_new_place"))
 const Login = lazy(() => import("../../views/Login"))
 const Register = lazy(() => import("../../views/Register"))
 const ForgotPassword = lazy(() => import("../../views/ForgotPassword"))
 const Error = lazy(() => import("../../views/Error"))
 
-const Activity = lazy(() => import("../../views/activity"))
+
 // ** Merge Routes
 const Routes = [
   {
@@ -43,12 +48,37 @@ const Routes = [
     element: <Home />
   },
   {
-    path: "/second-page",
-    element: <SecondPage />
+    path: constant.PLACES_PATH,
+    element: <Places />
   },
   {
-    path: constant.ACTIVITY_PATH,
-    element: <Activity />
+    path: '/pages/blog/detail/:id',
+    element: <PlaceDetails />
+  },
+  {
+    path: '/pages/blog/detail',
+    element: <Navigate to='/pages/blog/detail/1' />
+  },
+  {
+    path: '/pages/blog/edit/:id',
+    element: <PlaceEdit />
+  },
+  {
+    path: '/pages/blog/edit',
+    element: <Navigate to='/pages/blog/edit/1' />
+  },
+  {
+    path: constant.CATEGORIES_PATH,
+    element: <Categories />
+  },
+  {
+    path: constant.CATEGORY_PATH,
+    element: <Category />,
+    children: [{ path: ':categoryTitle', element: <Category /> }]
+  },
+  {
+    path: constant.ADD_NEW_PLACE_PATH,
+    element: <AddNewPlace/>
   },
   {
     path: "/login",

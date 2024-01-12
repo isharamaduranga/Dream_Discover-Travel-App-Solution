@@ -1,22 +1,20 @@
 import React, { Fragment, useEffect } from "react"
 import NavbarUser from "./NavbarUser"
-import { Activity, Grid, Home, MapPin, Menu, Radio } from "react-feather"
+import { Activity, Grid, Home, MapPin, Menu, PlusCircle, Radio } from "react-feather";
 import { Col, NavItem, NavLink, Row } from "reactstrap";
 import themeConfig from "@configs/themeConfig"
 import {
-  ACTIVITY_PATH,
-  DEVICES_SETTING,
-  GET_ALL_VEHICLES,
+  ADD_NEW_PLACE_PATH, CATEGORIES_PATH,
   HOME_PATH,
-  REPORT_PATH
-} from "@src/router/routes/route-constant"
+  PLACES_PATH,
+} from "@src/router/routes/route-constant";
 import { Link } from "react-router-dom"
 import "../../../../main.scss"
 import { routePathHandler } from "@store/routePath"
 import { useDispatch, useSelector } from "react-redux"
 
 const ThemeNavbar = (props) => {
-  const { setMenuVisibility } = props
+  const {  } = props
   const dispatch = useDispatch()
   const routePathStore = useSelector((state) => state.routePath)
   let windowPath = routePathStore.pathName
@@ -70,31 +68,9 @@ const ThemeNavbar = (props) => {
             </Link>
 
             <Link
-              to={ACTIVITY_PATH}
-              className={`top-wrapper ${windowPath === ACTIVITY_PATH ? "top-wrapper-active" : ""}`}
-              onClick={() => setWindowPathHandler(ACTIVITY_PATH)}
-            >
-              <div className={"nav_itm"}>
-                <Activity />
-                <p>Activity</p>
-              </div>
-            </Link>
-
-            <Link
-              to={GET_ALL_VEHICLES}
-              className={`top-wrapper ${windowPath === GET_ALL_VEHICLES ? "top-wrapper-active" : ""}`}
-              onClick={() => setWindowPathHandler(GET_ALL_VEHICLES)}
-            >
-              <div className={"nav_itm"}>
-                <Grid />
-                <p>Category</p>
-              </div>
-            </Link>
-
-            <Link
-              to={REPORT_PATH}
-              className={`top-wrapper ${windowPath === REPORT_PATH ? "top-wrapper-active" : ""}`}
-              onClick={() => setWindowPathHandler(REPORT_PATH)}
+              to={PLACES_PATH}
+              className={`top-wrapper ${windowPath === PLACES_PATH ? "top-wrapper-active" : ""}`}
+              onClick={() => setWindowPathHandler(PLACES_PATH)}
             >
               <div className={"nav_itm"}>
                 <MapPin />
@@ -103,13 +79,24 @@ const ThemeNavbar = (props) => {
             </Link>
 
             <Link
-              to={DEVICES_SETTING}
-              className={`top-wrapper ${windowPath === DEVICES_SETTING ? "top-wrapper-active" : ""}`}
-              onClick={() => setWindowPathHandler(DEVICES_SETTING)}
+              to={CATEGORIES_PATH}
+              className={`top-wrapper ${windowPath === CATEGORIES_PATH ? "top-wrapper-active" : ""}`}
+              onClick={() => setWindowPathHandler(CATEGORIES_PATH)}
             >
               <div className={"nav_itm"}>
-                <Radio />
-                <p>Events</p>
+                <Grid />
+                <p>Category</p>
+              </div>
+            </Link>
+
+            <Link
+              to={ADD_NEW_PLACE_PATH}
+              className={`top-wrapper ${windowPath === ADD_NEW_PLACE_PATH ? "top-wrapper-active" : ""}`}
+              onClick={() => setWindowPathHandler(ADD_NEW_PLACE_PATH)}
+            >
+              <div className={"nav_itm"}>
+                <PlusCircle />
+                <p>Add New Place</p>
               </div>
             </Link>
           </div>

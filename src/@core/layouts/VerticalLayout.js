@@ -172,7 +172,7 @@ const VerticalLayout = (props) => {
             navbarClasses[navbarType] || "floating-nav"
           } navbar-shadow`
         )}
-        style={{backgroundColor:`rgba(0, 0, 0, 0.1)`}}
+        style={{backgroundColor:`white`}}
       >
         <div className="navbar-container d-flex content">
           {navbar ? (

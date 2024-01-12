@@ -22,6 +22,14 @@ import ancient from './home/category/ancient.jpg'
 import festive from './home/category/festive.jpg'
 import travel_grid from './home/travel_grid.png'
 
+import adventure_cover from './category/adventure_cover.jpg'
+import wild_cover from './category/wild_cover.jpg'
+import water_sport_cover from './category/water_sport_cover.jpg'
+import nature_cover from './category/nature_cover.jpg'
+import camping_cover from './category/camping_cover.jpg'
+import ancient_cover from './category/ancient_cover.jpg'
+import festive_cover from './category/festive_cover.jpg'
+
 export const Assets = {
   banner:banner,
   sky:sky,
@@ -46,5 +54,15 @@ export const Assets = {
   nature:nature,
   camping:camping,
   ancient:ancient,
-  festive:festive
+  festive:festive,
+
+  adventure_cover:adventure_cover,
+  wild_cover:wild_cover,
+  water_sport_cover:water_sport_cover,
+  nature_cover:nature_cover,
+  camping_cover:camping_cover,
+  ancient_cover:ancient_cover,
+  festive_cover:festive_cover
+
+
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import React from "react"
 
-const Activity = () => {
+const AddNewPlace = () => {
   return (
     <div>
-      <h1> Activity List</h1>
+      <h1> ADD NEW PLACE</h1>
       <br/>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam atque consectetur cumque distinctio
         eos eum ex facere fugit illum nihil nobis porro, quae quasi quibusdam rerum sunt suscipit, vero!
@@ -14,7 +14,7 @@ const Activity = () => {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam atque consectetur cumque distinctio
         eos eum ex facere fugit illum nihil nobis porro, quae quasi quibusdam rerum sunt suscipit, vero!</p>
     </div>
-  );
-};
+  )
+}
 
-export default Activity;
+export default AddNewPlace
