@@ -28,22 +28,44 @@ import {
 
 // ** Styles
 import '@styles/base/pages/page-blog.scss'
-import { BlogData } from "@hooks/blog-data"
+import { getAllPlaces } from "@src/services/place"
+import moment from "moment"
 
 const BlogList = () => {
   // ** States
   const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  
+
+  /** Fetch All Places in Backend proceed */
+
+  const fetchAllPlaces = async () => {
+    try {
+      const response = await getAllPlaces() 
+      if (response.status === 200) {
+         console.log(response.data.data)
+        setData(response.data.data)
+      } else {
+        console.error("Error fetching places:", response.message)
+      }
+    } catch (error) {
+      console.error("An error occurred:", error)
+    }
+  }
 
   useEffect(() => {
-    setData(BlogData.blogList)
+    fetchAllPlaces()
   }, [])
 
+
   const badgeColorsArr = {
-    Quote: 'light-info',
-    Fashion: 'light-primary',
-    Gaming: 'light-danger',
-    Video: 'light-warning',
-    Food: 'light-success'
+    Adventure: 'light-info',
+    WildLife: 'light-danger',
+    WaterSport: 'light-primary',
+    Nature: 'light-success',
+    Camping: 'light-danger',
+    Ancient: 'light-warning',
+    Festive: 'light-secondary'
   }
   const renderRenderList = () => {
     return data.map(item => {
@@ -66,37 +88,37 @@ const BlogList = () => {
       }
 
       return (
-        <Col key={item.title} md='6'>
+        <Col key={item.title} md='4'>
           <Card>
             <Link to={`/pages/blog/detail/${item.id}`}>
               <CardImg className='img-fluid' src={item.img} alt={item.title} top />
             </Link>
             <CardBody>
-              <CardTitle tag='h4'>
+              <CardTitle tag='h3'>
                 <Link className='blog-title-truncate text-body-heading' to={`/pages/blog/detail/${item.id}`}>
                   {item.title}
                 </Link>
               </CardTitle>
               <div className='d-flex'>
-                <Avatar className='me-50' img={item.avatar} imgHeight='24' imgWidth='24' />
+                <Avatar className='me-50' img={item.user_image} imgHeight='25' imgWidth='25' />
                 <div>
-                  <small className='text-muted me-25'>by</small>
-                  <small>
+                  <small className='text-muted fw-bold me-25'>by</small>
+                  <small className={'fw-bold'}>
                     <a className='text-body' href='/' onClick={e => e.preventDefault()}>
-                      {item.userFullName}
+                      {item.user_full_name}
                     </a>
                   </small>
-                  <span className='text-muted ms-50 me-25'>|</span>
-                  <small className='text-muted'>{item.blogPosted}</small>
+                  <span className='text-dark ms-50 me-25'>|</span>
+                  <small className='text-secondary fw-bold'>{moment(item.posted_date).format('lll')}</small>
                 </div>
               </div>
               <div className='my-1 py-25'>{renderTags()}</div>
-              <CardText className='blog-content-truncate'>{item.excerpt}</CardText>
+              <CardText className='blog-content-truncate'>{item.content.split(' ').slice(0, 10).join(' ')}...</CardText>
               <hr />
               <div className='d-flex justify-content-between align-items-center'>
                 <Link to={`/pages/blog/detail/${item.id}`}>
                   <MessageSquare size={15} className='text-body me-50' />
-                  <span className='text-body fw-bold'>{item.comment} Comments</span>
+                  <span className='text-body fw-bold'>{item.comments.length} Comments</span>
                 </Link>
                 <Link className='fw-bold' to={`/pages/blog/detail/${item.id}`}>
                   Read More
@@ -111,9 +133,9 @@ const BlogList = () => {
 
   return (
     <Fragment>
-      <Breadcrumbs title='Blog List' data={[{ title: 'Pages' }, { title: 'Blog' }, { title: 'List' }]} />
+      <Breadcrumbs title='Place List' data={[{ title: 'Places' }]} />
       <div className='blog-wrapper'>
-        <div className='content-detached content-left'>
+        <div className='content-detached content-right'>
           <div className='content-body'>
             {data !== null ? (
               <div className='blog-list-wrapper'>
@@ -124,7 +146,7 @@ const BlogList = () => {
                       <PaginationItem className='prev-item'>
                         <PaginationLink href='#' onClick={e => e.preventDefault()}></PaginationLink>
                       </PaginationItem>
-                      <PaginationItem>
+                      <PaginationItem active>
                         <PaginationLink href='#' onClick={e => e.preventDefault()}>
                           1
                         </PaginationLink>
@@ -139,24 +161,9 @@ const BlogList = () => {
                           3
                         </PaginationLink>
                       </PaginationItem>
-                      <PaginationItem active>
+                      <PaginationItem >
                         <PaginationLink href='#' onClick={e => e.preventDefault()}>
                           4
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href='#' onClick={e => e.preventDefault()}>
-                          5
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href='#' onClick={e => e.preventDefault()}>
-                          6
-                        </PaginationLink>
-                      </PaginationItem>
-                      <PaginationItem>
-                        <PaginationLink href='#' onClick={e => e.preventDefault()}>
-                          7
                         </PaginationLink>
                       </PaginationItem>
                       <PaginationItem className='next-item'>

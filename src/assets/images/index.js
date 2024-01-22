@@ -30,6 +30,11 @@ import camping_cover from './category/camping_cover.jpg'
 import ancient_cover from './category/ancient_cover.jpg'
 import festive_cover from './category/festive_cover.jpg'
 
+import featuredImg from './places/avatar/avatar-s-4.jpg'
+import emptyImg from './places/empty.jpg'
+import user from './places/user.png'
+
+
 export const Assets = {
   banner:banner,
   sky:sky,
@@ -62,7 +67,10 @@ export const Assets = {
   nature_cover:nature_cover,
   camping_cover:camping_cover,
   ancient_cover:ancient_cover,
-  festive_cover:festive_cover
+  festive_cover:festive_cover,
 
+  featuredImg:featuredImg,
+  emptyImg:emptyImg,
+  user:user,
 
 }

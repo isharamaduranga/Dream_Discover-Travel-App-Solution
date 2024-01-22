@@ -12,7 +12,7 @@ import Avatar from '@components/avatar'
 
 // ** Reactstrap Imports
 import { InputGroup, Input, InputGroupText } from 'reactstrap'
-import { BlogData } from "@hooks/blog-data";
+import { BlogData } from "@src/utility/blog-data";
 
 const BlogSidebar = () => {
   // ** States
@@ -23,11 +23,13 @@ const BlogSidebar = () => {
   }, [])
 
   const CategoryColorsArr = {
-    Quote: 'light-info',
-    Fashion: 'light-primary',
-    Gaming: 'light-danger',
-    Video: 'light-warning',
-    Food: 'light-success'
+    Adventure: 'light-info',
+    WildLife: 'light-danger',
+    WaterSport: 'light-primary',
+    Nature: 'light-success',
+    Camping: 'light-danger',
+    Ancient: 'light-warning',
+    Festive: 'light-secondary'
   }
 
   const renderRecentPosts = () => {
@@ -67,10 +69,10 @@ const BlogSidebar = () => {
           })}
         >
           <a className='me-75' href='/' onClick={e => e.preventDefault()}>
-            <Avatar className='rounded' color={CategoryColorsArr[item.category]} icon={<IconTag size={15} />} />
+            <Avatar className='rounded'  color={CategoryColorsArr[item.category]} icon={<IconTag size={20} />} />
           </a>
           <a href='/' onClick={e => e.preventDefault()}>
-            <div className='blog-category-title text-body'>{item.category}</div>
+            <div className='blog-category-title text-body fs-5'>{item.category}</div>
           </a>
         </div>
       )

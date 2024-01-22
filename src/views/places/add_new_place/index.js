@@ -1,67 +1,56 @@
-// ** React Imports
-import { useState, useEffect } from 'react'
-
-// ** Third Party Components
-
-import Select from 'react-select'
-import htmlToDraft from 'html-to-draftjs'
-import { Editor } from 'react-draft-wysiwyg'
-import { EditorState, ContentState } from 'draft-js'
-
-// ** Custom Components
-import Avatar from '@components/avatar'
-import Breadcrumbs from '@components/breadcrumbs'
-
-// ** Utils
-import { selectThemeColors } from '@utils'
-
-// ** Reactstrap Imports
-import { Row, Col, Card, CardBody, CardText, Form, Label, Input, Button } from 'reactstrap'
+import React, { Fragment, useEffect, useState } from "react";
+import htmlToDraft from "html-to-draftjs"
+import { ContentState, EditorState } from "draft-js"
+import Breadcrumbs from "@components/breadcrumbs"
+import { Button, Card, CardBody, CardText, Col, Form, Input, Label, Row } from "reactstrap"
+import Avatar from "@components/avatar"
+import Select from "react-select"
+import { selectThemeColors } from "@utils"
+import { Editor } from "react-draft-wysiwyg"
 
 // ** Styles
 import '@styles/react/libs/editor/editor.scss'
 import '@styles/base/plugins/forms/form-quill-editor.scss'
 import '@styles/react/libs/react-select/_react-select.scss'
 import '@styles/base/pages/page-blog.scss'
-import { BlogData } from "@src/utility/blog-data";
+import { Assets } from "@src/assets/images"
+import Flatpickr from 'react-flatpickr'
+// ** Styles
+import '@styles/react/libs/flatpickr/flatpickr.scss'
+const AddNewPlace = () => {
 
-const BlogEdit = () => {
-  const initialContent = `
-  <p>Cupcake ipsum dolor sit. Amet dessert donut candy chocolate bar cotton dessert candy chocolate. Candy muffin danish. Macaroon brownie jelly beans marzipan cheesecake oat cake. Carrot cake macaroon chocolate cake. Jelly brownie jelly. Marzipan pie sweet roll.</p>
-  <p>Liquorice dragée cake chupa chups pie cotton candy jujubes bear claw sesame snaps. Fruitcake chupa chups chocolate bonbon lemon drops croissant caramels lemon drops. Candy jelly cake marshmallow jelly beans dragée macaroon. Gummies sugar plum fruitcake. Candy canes candy cupcake caramels cotton candy jujubes fruitcake.</p>
-  `
-
+  const initialContent = `<p>Please Type your content ...</p>`
   const contentBlock = htmlToDraft(initialContent)
   const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
   const editorState = EditorState.createWithContent(contentState)
 
+
   // ** States
-  const [data, setData] = useState(null),
+  const [avatar, setAvatar] = useState(Assets.user),
     [title, setTitle] = useState(''),
-    [slug, setSlug] = useState(''),
-    [status, setStatus] = useState(''),
     [content, setContent] = useState(editorState),
+    [userFullName, setUserFullName] = useState(''),
+    [blogPosted, setBlogPosted] = useState(new Date()),
+
     [blogCategories, setBlogCategories] = useState([]),
-    [featuredImg, setFeaturedImg] = useState(null),
-    [imgPath, setImgPath] = useState('banner.jpg')
+    [featuredImg, setFeaturedImg] = useState(Assets.emptyImg),
+    [imgPath, setImgPath] = useState('banner.jpg'),
+    [ratingScore, setRatingScore] = useState(null),
+    [comments, setComments] = useState([])
 
   useEffect(() => {
 
-      setData(BlogData.blogEdit)
-      setTitle(BlogData.blogEdit.blogTitle)
-      setSlug(BlogData.blogEdit.slug)
-      setBlogCategories(BlogData.blogEdit.blogCategories)
-      setFeaturedImg(BlogData.blogEdit.featuredImage)
-      setStatus(BlogData.blogEdit.status)
 
   }, [])
 
   const categories = [
-    { value: 'fashion', label: 'Fashion' },
-    { value: 'gaming', label: 'Gaming' },
-    { value: 'quote', label: 'Quote' },
-    { value: 'video', label: 'Video' },
-    { value: 'food', label: 'Food' }
+    { value: 'Adventure', label: 'Adventure' },
+    { value: 'WildLife', label: 'WildLife' },
+    { value: 'WaterSport', label: 'WaterSport' },
+    { value: 'Nature', label: 'Nature' },
+    { value: 'Camping', label: 'Camping' },
+    { value: 'Ancient', label: 'Ancient' },
+    { value: 'Festive', label: 'Festive' }
   ]
 
   const onChange = e => {
@@ -73,35 +62,79 @@ const BlogEdit = () => {
     }
     reader.readAsDataURL(files[0])
   }
+  const onChangeAvatar = e => {
+    const reader = new FileReader(),
+      files = e.target.files
+    setImgPath(files[0].name)
+    reader.onload = function () {
+      setAvatar(reader.result)
+    }
+    reader.readAsDataURL(files[0])
+  }
+
+  const apiHandler = () => {
+
+  }
+
 
   return (
     <div className='blog-edit-wrapper'>
-      <Breadcrumbs title='Place Edit' data={[{ title: 'Place' }, { title: 'Edit' }]} />
-      {data !== null ? (
-        <Row>
+      <Breadcrumbs title='Add New Place' data={[{ title: 'Add New Place' }]} />
+        <Row className={'bg-white'}>
           <Col sm='12'>
             <Card>
               <CardBody>
                 <div className='d-flex'>
                   <div>
-                    <Avatar className='me-75' img={data.avatar} imgWidth='38' imgHeight='38' />
-                  </div>
-                  <div>
-                    <h6 className='mb-25'>{data.userFullName}</h6>
-                    <CardText>{data.createdTime}</CardText>
+                    <Row>
+                      <Col md={2}>
+                        <Avatar className='me-75' img={avatar} imgWidth='65' imgHeight='65' />
+                      </Col>
+                      <Col>
+                        <div className=''>
+                          <Label className='form-label' for='blog-edit-title'>
+                            User Profile
+                          </Label>
+                          <Input
+                            type='file'
+                            id='exampleCustomFileBrowser'
+                            name='customFile'
+                            onChange={onChangeAvatar}
+                            accept='.jpg, .png, .gif'
+                          />
+                        </div>
+                      </Col>
+                      <Col>
+                        <Label className='form-label' for='blog-edit-title'>
+                          User Name
+                        </Label>
+                        <Input id='blog-edit-title' value={userFullName} onChange={e => setUserFullName(e.target.value)} />
+                      </Col>
+                    </Row>
                   </div>
                 </div>
+                <hr/>
                 <Form className='mt-2' onSubmit={e => e.preventDefault()}>
                   <Row>
-                    <Col md='6' className='mb-2'>
+                    <Col md='4' className='mb-2'>
+                      <Fragment>
+                        <Label className='form-label' for='default-picker'>
+                          Date
+                        </Label>
+                        <Flatpickr className='form-control bg-white text-dark'  value={blogPosted} onChange={date => setBlogPosted(date)} id='default-picker' />
+                      </Fragment>
+                    </Col>
+
+                    <Col md='4' className='mb-2'>
                       <Label className='form-label' for='blog-edit-title'>
-                        Title
+                        Place Name
                       </Label>
                       <Input id='blog-edit-title' value={title} onChange={e => setTitle(e.target.value)} />
                     </Col>
-                    <Col md='6' className='mb-2'>
+
+                    <Col md='4' className='mb-2'>
                       <Label className='form-label' for='blog-edit-category'>
-                        Category
+                        Select Categories
                       </Label>
                       <Select
                         id='blog-edit-category'
@@ -116,50 +149,26 @@ const BlogEdit = () => {
                         onChange={data => setBlogCategories(data)}
                       />
                     </Col>
-                    <Col md='6' className='mb-2'>
-                      <Label className='form-label' for='blog-edit-slug'>
-                        Slug
-                      </Label>
-                      <Input id='blog-edit-slug' value={slug} onChange={e => setSlug(e.target.value)} />
-                    </Col>
-                    <Col md='6' className='mb-2'>
-                      <Label className='form-label' for='blog-edit-status'>
-                        Status
-                      </Label>
-                      <Input
-                        type='select'
-                        id='blog-edit-status'
-                        value={status}
-                        onChange={e => setStatus(e.target.value)}
-                      >
-                        <option value='Published'>Published</option>
-                        <option value='Pending'>Pending</option>
-                        <option value='Draft'>Draft</option>
-                      </Input>
-                    </Col>
+
+
                     <Col sm='12' className='mb-2'>
                       <Label className='form-label'>Content</Label>
                       <Editor editorState={content} onEditorStateChange={data => setContent(data)} />
                     </Col>
                     <Col className='mb-2' sm='12'>
                       <div className='border rounded p-2'>
-                        <h4 className='mb-1'>Featured Image</h4>
+                        <h4 className='mb-1'>Place Image</h4>
                         <div className='d-flex flex-column flex-md-row'>
                           <img
                             className='rounded me-2 mb-1 mb-md-0'
                             src={featuredImg}
-                            alt='featured img'
+                            alt='user img'
                             width='170'
                             height='110'
                           />
                           <div>
                             <small className='text-muted'>Required image resolution 800x400, image size 10mb.</small>
-
-                            <p className='my-50'>
-                              <a href='/' onClick={e => e.preventDefault()}>
-                                {`C:/fakepath/${imgPath}`}
-                              </a>
-                            </p>
+                            <br/>
                             <div className='d-inline-block'>
                               <div className='mb-0'>
                                 <Input
@@ -189,9 +198,8 @@ const BlogEdit = () => {
             </Card>
           </Col>
         </Row>
-      ) : null}
     </div>
   )
 }
 
-export default BlogEdit
+export default AddNewPlace
