@@ -1,5 +1,6 @@
 
 import banner from '../images/home/banner.png'
+import logo from '../images/logo/logo.ico'
 import sky from '../images/home/sky.jpg'
 import sriLanka from './home/sriLanka.png'
 import travelLogo from './home/travelLogo.png'
@@ -34,8 +35,8 @@ import featuredImg from './places/avatar/avatar-s-4.jpg'
 import emptyImg from './places/empty.jpg'
 import user from './places/user.png'
 
-
 export const Assets = {
+  logo:logo,
   banner:banner,
   sky:sky,
   sriLanka:sriLanka,
@@ -71,6 +72,6 @@ export const Assets = {
 
   featuredImg:featuredImg,
   emptyImg:emptyImg,
-  user:user,
+  user:user
 
 }

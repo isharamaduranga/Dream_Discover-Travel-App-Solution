@@ -3,8 +3,8 @@ export const ACCESS_TOKEN = 'access_token'
 export const BASIC_AUTH = 'VVNFUjo='
 export const REFRESH_TOKEN = 'refresh_token'
 
-export const  IS_LOGIN_USER = 'USER'
-export const  IS_LOGIN_ADMIN = 'ADMIN'
+export const  IS_LOGIN = 'ISLOGIN'
+export const  USER_LOGIN_DETAILS = 'USER_DETAILS'
 
 export const ROUTE_PATH = ''
 

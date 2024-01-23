@@ -7,7 +7,7 @@ import logo from "@src/assets/images/logo/logo.ico"
 const themeConfig = {
   app: {
     appName: "Dream Discover",
-    appLogoImage: logo,
+    appLogoImage: logo
   },
   layout: {
     isRTL: false,
@@ -16,7 +16,7 @@ const themeConfig = {
     contentWidth: "full", // full, boxed
     menu: {
       isHidden: true,
-      isCollapsed: true,
+      isCollapsed: true
     },
     navbar: {
       // ? For horizontal menu, navbar type will work for navMenu type
@@ -24,12 +24,12 @@ const themeConfig = {
       backgroundColor: '' // BS color options [primary, success, etc]
     },
     footer: {
-      type: "static", // static, sticky, hidden
+      type: "static" // static, sticky, hidden
     },
     customizer: false,
     scrollTop: true, // Enable scroll to top button
-    toastPosition: "top-right", // top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
-  },
-};
+    toastPosition: "top-right" // top-left, top-center, top-right, bottom-left, bottom-center, bottom-right
+  }
+}
 
-export default themeConfig;
+export default themeConfig

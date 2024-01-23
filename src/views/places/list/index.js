@@ -30,6 +30,7 @@ import {
 import '@styles/base/pages/page-blog.scss'
 import { getAllPlaces } from "@src/services/place"
 import moment from "moment"
+import SpinnerComponent from "@components/spinner/Fallback-spinner";
 
 const BlogList = () => {
   // ** States
@@ -40,6 +41,7 @@ const BlogList = () => {
   /** Fetch All Places in Backend proceed */
 
   const fetchAllPlaces = async () => {
+    setLoading(true)
     try {
       const response = await getAllPlaces() 
       if (response.status === 200) {
@@ -50,6 +52,8 @@ const BlogList = () => {
       }
     } catch (error) {
       console.error("An error occurred:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -132,6 +136,10 @@ const BlogList = () => {
   }
 
   return (
+    <>
+      {loading === true ? (
+        <SpinnerComponent />
+      ) : (
     <Fragment>
       <Breadcrumbs title='Place List' data={[{ title: 'Places' }]} />
       <div className='blog-wrapper'>
@@ -179,6 +187,8 @@ const BlogList = () => {
         <Sidebar />
       </div>
     </Fragment>
+      )}
+    </>
   )
 }
 

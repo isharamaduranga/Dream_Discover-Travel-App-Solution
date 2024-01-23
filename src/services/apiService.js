@@ -19,7 +19,7 @@ import { errorSweetAlert } from '../component/alert/sweet-alert'
   }
 
    headers = {
-     'Content-Type': apiObject.urlencoded ? 'application/x-www-form-urlencoded'  : 'application/json'
+     'Content-Type': apiObject.urlencoded ? 'application/x-www-form-urlencoded' : apiObject.multipart ? 'multipart/form-data' : 'application/json'
    }
 
   if (apiObject.authentication) {

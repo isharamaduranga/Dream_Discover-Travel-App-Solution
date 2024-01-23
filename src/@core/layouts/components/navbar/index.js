@@ -1,17 +1,19 @@
 import React, { Fragment, useEffect } from "react"
 import NavbarUser from "./NavbarUser"
-import { Activity, Grid, Home, MapPin, Menu, PlusCircle, Radio } from "react-feather";
-import { Col, NavItem, NavLink, Row } from "reactstrap";
+import {Grid, Home, MapPin, Menu, PlusCircle, Radio } from "react-feather"
+import { Col, Row } from "reactstrap"
 import themeConfig from "@configs/themeConfig"
 import {
   ADD_NEW_PLACE_PATH, CATEGORIES_PATH,
   HOME_PATH,
-  PLACES_PATH,
-} from "@src/router/routes/route-constant";
-import { Link } from "react-router-dom"
+  PLACES_PATH
+} from "@src/router/routes/route-constant"
+import { Link, useNavigate } from "react-router-dom"
 import "../../../../main.scss"
 import { routePathHandler } from "@store/routePath"
 import { useDispatch, useSelector } from "react-redux"
+import { IS_LOGIN, LOGIN_PATH } from "@src/router/RouteConstant"
+import toast from "react-hot-toast"
 
 const ThemeNavbar = (props) => {
   const {  } = props
@@ -27,6 +29,13 @@ const ThemeNavbar = (props) => {
     windowPath = routePathStore.pathName
   }, [routePathStore.pathName])
 
+  const userStatus = localStorage.getItem(IS_LOGIN)
+  const handleAddNewPlaceClick = () => {
+    setWindowPathHandler(LOGIN_PATH)
+    toast.success('You must register or sign in before adding a new place.')
+    }
+
+  
   return (
     <Fragment>
       <Row className="bookmark-wrapper d-flex align-items-center " style={{width:'95vw'}}>
@@ -89,16 +98,29 @@ const ThemeNavbar = (props) => {
               </div>
             </Link>
 
-            <Link
-              to={ADD_NEW_PLACE_PATH}
-              className={`top-wrapper ${windowPath === ADD_NEW_PLACE_PATH ? "top-wrapper-active" : ""}`}
-              onClick={() => setWindowPathHandler(ADD_NEW_PLACE_PATH)}
-            >
-              <div className={"nav_itm"}>
-                <PlusCircle />
-                <p>Add New Place</p>
-              </div>
-            </Link>
+            {userStatus === "USER" ? (
+              <Link
+                to={ADD_NEW_PLACE_PATH}
+                className={`top-wrapper ${windowPath === ADD_NEW_PLACE_PATH ? "top-wrapper-active" : ""}`}
+                onClick={() => setWindowPathHandler(ADD_NEW_PLACE_PATH)}
+              >
+                <div className={"nav_itm"}>
+                  <PlusCircle />
+                  <p>Add New Place</p>
+                </div>
+              </Link>
+              ) : (
+              <Link
+                to={LOGIN_PATH}
+                className={`top-wrapper ${windowPath === LOGIN_PATH ? "top-wrapper-active" : ""}`}
+                onClick={handleAddNewPlaceClick}
+              >
+                <div className={"nav_itm"}>
+                  <PlusCircle />
+                  <p>Add New Place</p>
+                </div>
+              </Link>  
+            )}
           </div>
         </Col>
 

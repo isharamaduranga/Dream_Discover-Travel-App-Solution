@@ -19,3 +19,14 @@ export async function getAllPlaces() {
   apiObject.urlencoded = false
   return await ApiService.callApi(apiObject)
 }
+
+
+export async function getPlaceByPlaceId(placeId) {
+  const apiObject = {}
+  apiObject.method = "GET"
+  apiObject.authentication = false
+  apiObject.endpoint = `placesWithComments/${placeId}`
+  apiObject.isBasicAuth = false
+  apiObject.urlencoded = false
+  return await ApiService.callApi(apiObject)
+}

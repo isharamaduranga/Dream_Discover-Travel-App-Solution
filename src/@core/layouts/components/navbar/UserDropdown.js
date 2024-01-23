@@ -1,33 +1,27 @@
 // ** React Imports
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 
 // ** Custom Components
-import Avatar from "@components/avatar";
+import Avatar from "@components/avatar"
 
 // ** Third Party Components
-import {
-  User,
-  Mail,
-  CheckSquare,
-  MessageSquare,
-  Settings,
-  CreditCard,
-  HelpCircle,
-  Power,
-} from "react-feather";
+import { Mail, Power, User } from "react-feather"
 
 // ** Reactstrap Imports
-import {
-  UncontrolledDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-} from "reactstrap";
+import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from "reactstrap"
 
 // ** Default Avatar Image
-import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
+import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
+import { IS_LOGIN, LOGIN_PATH, USER_LOGIN_DETAILS } from "@src/router/RouteConstant";
+import { HOME_PATH } from "@src/router/routes/route-constant"
 
 const UserDropdown = () => {
+  const navigate = useNavigate()
+  const handleLogOut = () => {
+    localStorage.removeItem(IS_LOGIN)
+    localStorage.removeItem(USER_LOGIN_DETAILS)
+     navigate(LOGIN_PATH)
+  }
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -57,13 +51,13 @@ const UserDropdown = () => {
           <span className="align-middle">Inbox</span>
         </DropdownItem>
         <DropdownItem divider />
-        <DropdownItem tag={Link} to="/login">
+        <Button color={"primary"} onClick={handleLogOut} className={"ms-1 btn-sm"}>
           <Power size={14} className="me-75" />
           <span className="align-middle">Logout</span>
-        </DropdownItem>
+        </Button>
       </DropdownMenu>
     </UncontrolledDropdown>
-  );
-};
+  )
+}
 
-export default UserDropdown;
+export default UserDropdown

@@ -34,27 +34,35 @@ import {
 // ** Styles
 import "@styles/base/pages/page-blog.scss"
 import Rating from "react-rating"
-import { getAllPlaces } from "@src/services/place"
+import { getPlaceByPlaceId } from "@src/services/place"
 import moment from "moment/moment"
 
 const BlogDetails = () => {
   // ** States
   const [data, setData] = useState(null)
-  const [dataNew, setDataNew] = useState(null)
   const [displayedComments, setDisplayedComments] = useState(2)
 
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getAllPlaces()
-      setDataNew(response.data.data)
       const cardId = window.location.pathname.split("/").pop()
-      const cardDetails = dataNew.find((item) => String(item.id) === cardId)
-      setData(cardDetails)
-    }
+      fetchPlaceById(cardId)
+  }, [])
 
-    fetchData()
-  }, [dataNew])
+
+  const fetchPlaceById = async (cardId) => {
+    try {
+      const response = await getPlaceByPlaceId(cardId)
+      if (response.status === 200) {
+        console.log(response.data.data)
+        setData(response.data.data[0])
+      } else {
+        console.error("Error fetching places:", response.message)
+      }
+    } catch (error) {
+      console.error("An error occurred:", error)
+    }
+  }
+
 
   const badgeColorsArr = {
     Adventure: "light-info",
@@ -67,26 +75,25 @@ const BlogDetails = () => {
   }
 
   const renderTags = () => {
-    return data.tags.map((tag, index) => {
-      return (
-        <a key={index} href="/" onClick={e => e.preventDefault()}>
-          <Badge
-            className={classnames({
-              "me-50": index !== data.tags.length - 1
-            })}
-            color={badgeColorsArr[tag]}
-            pill
-          >
-            {tag}
-          </Badge>
-        </a>
-      )
-    })
+    return data?.tags?.map((tag, index) => (
+      <a key={index} href="/" onClick={(e) => e.preventDefault()}>
+        <Badge
+          className={classnames({
+            "me-50": index !== data.tags.length - 1
+          })}
+          color={badgeColorsArr[tag]}
+          pill
+        >
+          {tag}
+        </Badge>
+      </a>
+    ))
   }
 
   const handleViewMoreClick = () => {
-    setDisplayedComments(prevCount => (prevCount === data.comments.length ? 2 : data.comments.length))
+    setDisplayedComments((prevCount) => (prevCount === data?.comments?.length ? 2 : data?.comments?.length))
   }
+
 
   const renderComments = () => {
     return data.comments.slice(0, displayedComments).map(comment => (
