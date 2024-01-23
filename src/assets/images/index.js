@@ -34,6 +34,7 @@ import festive_cover from './category/festive_cover.jpg'
 import featuredImg from './places/avatar/avatar-s-4.jpg'
 import emptyImg from './places/empty.jpg'
 import user from './places/user.png'
+import sinharaja_forest from './logo/sinharaja_forest.jpg'
 
 export const Assets = {
   logo:logo,
@@ -72,6 +73,7 @@ export const Assets = {
 
   featuredImg:featuredImg,
   emptyImg:emptyImg,
-  user:user
+  user:user,
+  sinharaja_forest:sinharaja_forest
 
 }

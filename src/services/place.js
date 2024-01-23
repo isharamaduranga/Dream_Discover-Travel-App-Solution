@@ -4,8 +4,9 @@ export async function addNewPlace(placeDetails) {
   const apiObject = {}
   apiObject.method = "POST"
   apiObject.authentication = false
-  apiObject.endpoint = "place"
-  apiObject.urlencoded = true
+  apiObject.endpoint = "createPlace"
+  apiObject.multipart = true
+  apiObject.urlencoded = false
   apiObject.body = placeDetails
   return await ApiService.callApi(apiObject)
 }

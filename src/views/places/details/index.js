@@ -36,17 +36,84 @@ import "@styles/base/pages/page-blog.scss"
 import Rating from "react-rating"
 import { getPlaceByPlaceId } from "@src/services/place"
 import moment from "moment/moment"
+import { USER_LOGIN_DETAILS } from "@src/router/RouteConstant"
+import { badgeColorsArr } from "@src/utility/text_details"
+import { validateCommentDetails } from "@src/utility/validation"
+import { createNewComment } from "@src/services/user"
+import toast from "react-hot-toast"
+import LoadingSpinner from "@components/spinner/Loading-spinner"
 
 const BlogDetails = () => {
   // ** States
   const [data, setData] = useState(null)
   const [displayedComments, setDisplayedComments] = useState(2)
-
+  const [cardId, setCardId] = useState(null)
+  const [loggedUser, setLoggedUser] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [form, setForm] = useState({
+    comment_text: "",
+    email: "",
+    name: "",
+    place_id: "",
+    user_id: ""
+  })
+  console.log(form)
 
   useEffect(() => {
-      const cardId = window.location.pathname.split("/").pop()
-      fetchPlaceById(cardId)
+    // Fetch the logged-in user details from local storage
+    const storedUserDetails = localStorage.getItem(USER_LOGIN_DETAILS)
+    const user = storedUserDetails ? JSON.parse(storedUserDetails) : null
+    setLoggedUser(user)
+
+    // Extract the cardId from the URL
+    const extractedCardId = window.location.pathname.split("/").pop()
+    setCardId(extractedCardId)
+
+    fetchPlaceById(extractedCardId)
   }, [])
+
+  useEffect(() => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      place_id: cardId,
+      user_id: loggedUser?.user_id || ""
+    }))
+  }, [cardId, loggedUser])
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value
+    }))
+  }
+
+  function addNewCommentApiHandler() {
+    if (validateCommentDetails(form)) {
+      setLoading(true)
+      createNewComment(form)
+        .then((response) => {
+          if (response.data) {
+            toast.success(response.message)
+            // After successfully adding a comment, fetch updated place details
+            fetchPlaceById(cardId)
+
+          } else {
+            toast.error(response.message)
+          }
+        })
+        .catch((error) => {
+          console.error("API Request Error:", error.message)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }
+
+  const handleAddComment = () => {
+    addNewCommentApiHandler()
+  }
 
 
   const fetchPlaceById = async (cardId) => {
@@ -61,17 +128,6 @@ const BlogDetails = () => {
     } catch (error) {
       console.error("An error occurred:", error)
     }
-  }
-
-
-  const badgeColorsArr = {
-    Adventure: "light-info",
-    WildLife: "light-danger",
-    WaterSport: "light-primary",
-    Nature: "light-success",
-    Camping: "light-danger",
-    Ancient: "light-warning",
-    Festive: "light-secondary"
   }
 
   const renderTags = () => {
@@ -93,7 +149,6 @@ const BlogDetails = () => {
   const handleViewMoreClick = () => {
     setDisplayedComments((prevCount) => (prevCount === data?.comments?.length ? 2 : data?.comments?.length))
   }
-
 
   const renderComments = () => {
     return data.comments.slice(0, displayedComments).map(comment => (
@@ -195,21 +250,27 @@ const BlogDetails = () => {
                     </CardBody>
                   </Card>
                 </Col>
-                <Col sm="12" id="blogComment">
-                  <h6 className="section-label text-dark fs-5 mt-1">Comments</h6>
-                  {renderComments()}
-                  {data.comments.length > 2 && (
-                    <div className={"text-center mb-2 mt-2"}>
-                      <Button color="info" onClick={handleViewMoreClick}>
-                        {displayedComments === 2 ? (
-                          <>View More <ChevronsDown size={16} /></>
-                        ) : (
-                          <>View Less <ChevronsUp size={16} /></>
-                        )}
-                      </Button>
-                    </div>
-                  )}
-                </Col>
+                {
+                  loading === true ? (
+                    <LoadingSpinner />
+                  ) : (
+                    <Col sm="12" id="blogComment">
+                      <h6 className="section-label text-dark fs-5 mt-1">Comments</h6>
+                      {renderComments()}
+                      {data.comments.length > 2 && (
+                        <div className={"text-center mb-2 mt-2"}>
+                          <Button color="info" onClick={handleViewMoreClick}>
+                            {displayedComments === 2 ? (
+                              <>View More <ChevronsDown size={16} /></>
+                            ) : (
+                              <>View Less <ChevronsUp size={16} /></>
+                            )}
+                          </Button>
+                        </div>
+                      )}
+                    </Col>
+                  )
+                }
                 <Col sm="12" className={"mt-1"}>
                   <h6 className="section-label text-dark fs-5 mt-1">Leave a Comment</h6>
                   <Card>
@@ -218,17 +279,37 @@ const BlogDetails = () => {
                         <Row>
                           <Col sm="6">
                             <div className="mb-2">
-                              <Input placeholder="Name" />
+                              <Input
+                                placeholder="Name"
+                                type="text"
+                                name="name"
+                                value={form.name}
+                                onChange={handleFormChange}
+                              />
                             </div>
                           </Col>
                           <Col sm="6">
                             <div className="mb-2">
-                              <Input type="email" placeholder="Email" />
+                              <Input
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                                value={form.email}
+                                onChange={handleFormChange}
+                              />
                             </div>
                           </Col>
                           <Col sm="12">
                             <div className="mb-2">
-                              <Input className="mb-2" type="textarea" rows="4" placeholder="Comment" />
+                              <Input
+                                className="mb-2"
+                                type="textarea"
+                                rows="4"
+                                placeholder="Comment"
+                                name="comment_text"
+                                value={form.comment_text}
+                                onChange={handleFormChange}
+                              />
                             </div>
                           </Col>
                           <Col sm="12">
@@ -240,7 +321,12 @@ const BlogDetails = () => {
                             </div>
                           </Col>
                           <Col sm="12">
-                            <Button color="primary">Post Comment</Button>
+                            <Button
+                              color="primary"
+                              onClick={handleAddComment}
+                            >
+                              Post Comment
+                            </Button>
                           </Col>
                         </Row>
                       </Form>

@@ -1,5 +1,27 @@
 import { Assets } from "@src/assets/images"
 
+
+export  const badgeColorsArr = {
+  Adventure: "light-info",
+  WildLife: "light-danger",
+  WaterSport: "light-primary",
+  Nature: "light-success",
+  Camping: "light-danger",
+  Ancient: "light-warning",
+  Festive: "light-secondary"
+}
+
+export const categoriesSingle = [
+  { value: 'Adventure', label: 'Adventure' },
+  { value: 'WildLife', label: 'WildLife' },
+  { value: 'WaterSport', label: 'WaterSport' },
+  { value: 'Nature', label: 'Nature' },
+  { value: 'Camping', label: 'Camping' },
+  { value: 'Ancient', label: 'Ancient' },
+  { value: 'Festive', label: 'Festive' }
+]
+
+
 export const categories = [
   {
     id:'adventure',
