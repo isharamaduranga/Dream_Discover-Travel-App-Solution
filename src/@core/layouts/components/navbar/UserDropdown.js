@@ -18,31 +18,38 @@ import { getUserById } from "@src/services/user"
 
 const UserDropdown = () => {
   const navigate = useNavigate()
-  const [date, setData] = useState(null)
+  const [userDetails, setUserDetails] = useState(null)
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const user = localStorage.getItem(USER_LOGIN_DETAILS)
+      if (user) {
+        const userObj = JSON.parse(user)
+        try {
+          const response = await getUserById(userObj.user_id)
+          if (response.data) {
+            setUserDetails(response.data)
+          }
+        } catch (error) {
+          console.error("Error fetching user details:", error)
+        }
+      }
+    }
+    fetchUserDetails()
+  }, [])
+
   const handleLogOut = () => {
     localStorage.removeItem(IS_LOGIN)
     localStorage.removeItem(USER_LOGIN_DETAILS)
     navigate(LOGIN_PATH)
   }
-  const user = localStorage.getItem(USER_LOGIN_DETAILS)
-  const role = localStorage.getItem("")
-  const userObj = JSON.parse(user)
-
-  useEffect(() => {
-    const getUserDetailsById = (user_id) => {
-      getUserById(user_id)
-        .then((response) => {
-            if (response.data) {
-              setData(response.data)
-            }
-          }
-        )
-    }
-    getUserDetailsById(userObj.user_id)
-  }, [user])
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
+  if (!userDetails) {
+    return null; // Render nothing if userDetails is null
   }
 
   return (
@@ -55,11 +62,11 @@ const UserDropdown = () => {
       >
         <div className="user-nav d-sm-flex d-none">
           <span
-            className="user-name fw-bold fs-5">{userObj ? capitalizeFirstLetter(userObj.username) : "John Doe"}</span>
-          <span className="user-status fs-6">{capitalizeFirstLetter(role?.toLowerCase() || "User")}</span>
+            className="user-name fw-bold fs-5">{capitalizeFirstLetter(userDetails?.username)}</span>
+          <span className="user-status fs-6">{capitalizeFirstLetter(userDetails?.role?.toLowerCase() || "User")}</span>
         </div>
         <Avatar
-          img={date?.user_img || defaultAvatar}
+          img={userDetails?.user_img || defaultAvatar}
           imgHeight="45"
           imgWidth="45"
           status="online"
