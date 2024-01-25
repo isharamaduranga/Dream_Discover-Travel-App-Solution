@@ -1,16 +1,23 @@
 // ** Styles
 import "@styles/react/libs/charts/apex-charts.scss"
 import { Assets } from "@src/assets/images"
-import { Button, Card, CardBody, Col, Form, Input, Label, Row } from "reactstrap"
+import { Button, Card, CardBody, Col, Form, Label, Row } from "reactstrap"
 import "./home.scss"
 import SwiperMultiSlides from "@src/views/home/SwiperMultiSlides"
 import { useRTL } from "@hooks/useRTL"
 import "@styles/react/libs/swiper/swiper.scss"
 import FooterPage from "@src/views/home/footer/footer"
+import Select from "react-select"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { PLACES_PATH, PLACES_PATH_FILTER } from "@src/router/routes/route-constant";
+import { validatePlaceSearchDetails } from "@src/utility/validation"
+import { searchPlaceByTag_Min_Max } from "@src/services/place"
 
 const Home = () => {
 
   const [isRtl] = useRTL()
+  const navigate = useNavigate()
   const divStyle = {
     background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${Assets.banner})`,
     backgroundSize: "cover",
@@ -21,6 +28,69 @@ const Home = () => {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
+  }
+
+  const [form, setForm] = useState({
+    tag: "",
+    minscore: "",
+    maxscore: ""
+  })
+
+  const ratingRanges = [
+    { value: { minscore: 4.0, maxscore: 5.0 }, label: "5 Star" },
+    { value: { minscore: 3.0, maxscore: 4.0 }, label: "4 Star" },
+    { value: { minscore: 2.0, maxscore: 3.0 }, label: "3 Star" },
+    { value: { minscore: 1.0, maxscore: 2.0 }, label: "2 Star" },
+    { value: { minscore: 0.0, maxscore: 1.0 }, label: "1 Star" }
+  ]
+
+  const categoriesSingle = [
+    { value: "Adventure", label: "Adventure" },
+    { value: "WildLife", label: "WildLife" },
+    { value: "WaterSport", label: "WaterSport" },
+    { value: "Nature", label: "Nature" },
+    { value: "Camping", label: "Camping" },
+    { value: "Ancient", label: "Ancient" },
+    { value: "Festive", label: "Festive" }
+  ]
+
+  const handleCategoryChange = (selectedTagType) => {
+    setForm((prev) => ({
+      ...prev,
+      tag: selectedTagType.value
+    }))
+  }
+  const handleAccountTypeChange = (selectedAccType) => {
+    setForm((prev) => ({
+      ...prev,
+      minscore: selectedAccType.value.minscore,
+      maxscore: selectedAccType.value.maxscore
+    }))
+  }
+  console.log("form print =====================> ", form)
+
+  const createPlaceForSearch = form => {
+    return {
+      tag: form.tag ?? null,
+      minscore: form.minscore ?? null,
+      maxscore: form.maxscore ?? null
+    }
+  }
+  const apiHandlerForSearch = () => {
+    if (validatePlaceSearchDetails(form)) {
+
+      searchPlaceByTag_Min_Max(createPlaceForSearch(form))
+        .then((response) => {
+          if (response.data) {
+            navigate(PLACES_PATH_FILTER, {
+              state: { searchData: response.data.data } // Pass search results as state
+            })
+          }
+        })
+        .catch((error) => {
+          console.error("API Request Error:", error.message)
+        })
+    }
   }
 
   return (
@@ -39,18 +109,39 @@ const Home = () => {
               <Row>
                 <Col sm="12" className="mb-2">
                   <Label className="form-label" for="input-name">
-                    Input location
+                    Input Category
                   </Label>
-                  <Input placeholder="Colombo" id="input-name" />
+                  <Select
+                    id={`categoryTag`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    value={categoriesSingle.find(item => item.value === form.tag)}
+                    isClearable={false}
+                    options={categoriesSingle}
+                    onChange={handleCategoryChange}
+                  />
                 </Col>
                 <Col sm="12" className="mb-2">
                   <Label className="form-label" for="input-name2">
                     Select Ratings
                   </Label>
-                  <Input placeholder="5" id="input-name2" />
+                  <Select
+                    id={`ratingType`}
+                    className="react-select"
+                    classNamePrefix="select"
+                    value={ratingRanges.find(item => item.value.minscore === form.minscore && item.value.maxscore === form.maxscore)}
+                    isClearable={false}
+                    options={ratingRanges}
+                    onChange={handleAccountTypeChange}
+                  />
                 </Col>
                 <Col className="d-grid" sm="12">
-                  <Button className="btn_sch" color="info">Search</Button>
+                  <Button
+                    className="btn_sch"
+                    color="info"
+                    onClick={apiHandlerForSearch}
+                  >
+                    Search</Button>
                 </Col>
               </Row>
             </Form>

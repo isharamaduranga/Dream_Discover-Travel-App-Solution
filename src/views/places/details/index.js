@@ -34,7 +34,7 @@ import {
 // ** Styles
 import "@styles/base/pages/page-blog.scss"
 import Rating from "react-rating"
-import { getPlaceByPlaceId } from "@src/services/place"
+import { getPlaceByPlaceId, updateRateScoreInPlaceWithFeedback } from "@src/services/place"
 import moment from "moment/moment"
 import { USER_LOGIN_DETAILS } from "@src/router/RouteConstant"
 import { badgeColorsArr } from "@src/utility/text_details"
@@ -88,33 +88,15 @@ const BlogDetails = () => {
     }))
   }
 
-  function addNewCommentApiHandler() {
-    if (validateCommentDetails(form)) {
-      setLoading(true)
-      createNewComment(form)
-        .then((response) => {
-          if (response.data) {
-            toast.success(response.message)
-            // After successfully adding a comment, fetch updated place details
-            fetchPlaceById(cardId)
+  const clearForm = () => {
+    setForm((prevState) => ({
+      ...prevState,
+        comment_text: '',
+        name: '',
+        email: ''
 
-          } else {
-            toast.error(response.message)
-          }
-        })
-        .catch((error) => {
-          console.error("API Request Error:", error.message)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
-    }
+    }))
   }
-
-  const handleAddComment = () => {
-    addNewCommentApiHandler()
-  }
-
 
   const fetchPlaceById = async (cardId) => {
     try {
@@ -128,6 +110,45 @@ const BlogDetails = () => {
     } catch (error) {
       console.error("An error occurred:", error)
     }
+  }
+  function updateRateScore(placeId) {
+    updateRateScoreInPlaceWithFeedback(placeId)
+      .then((response) => {
+        console.log('response ----------->', response)
+        if (response.status === 200) {
+          fetchPlaceById(placeId)
+          toast.success('Updating Rating Score ...')
+        }
+      })
+      .catch((error) => {
+        console.error("API Request Error:", error.message)
+      })
+  }
+
+  function addNewCommentApiHandler() {
+    if (validateCommentDetails(form)) {
+      setLoading(true)
+      createNewComment(form)
+        .then((response) => {
+          if (response.data) {
+            toast.success(response.message)
+            // After successfully adding a comment, fetch updated place details
+            fetchPlaceById(cardId)
+            updateRateScore(cardId)
+          }
+          clearForm()
+        })
+        .catch((error) => {
+          console.error("API Request Error:", error.message)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }
+
+  const handleAddComment = () => {
+    addNewCommentApiHandler()
   }
 
   const renderTags = () => {

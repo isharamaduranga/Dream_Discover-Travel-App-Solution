@@ -20,11 +20,13 @@ const getLayout = {
 }
 
 import * as constant from './route-constant'
+import { PLACES_PATH_FILTER } from "./route-constant";
 
 // ** Default Route
 const DefaultRoute = "/home"
 const Home = lazy(() => import("../../views/home"))
 const Places = lazy(() => import("../../views/places/list/index"))
+const PlacesWithFilter = lazy(() => import("../../views/places/list/filterPlace"))
 const PlaceDetails = lazy(() => import('../../views/places/details'))
 const PlaceEdit = lazy(() => import('../../views/places/edit'))
 const Categories = lazy(() => import("../../views/categories/categories"))
@@ -50,6 +52,10 @@ const Routes = [
   {
     path: constant.PLACES_PATH,
     element: <Places />
+  },
+  {
+    path: constant.PLACES_PATH_FILTER,
+    element: <PlacesWithFilter />
   },
   {
     path: '/pages/blog/detail/:id',

@@ -37,9 +37,6 @@ const Login = () => {
     }
   }
 
-
-  console.log("login details ---> ", form)
-
   const onTextChange = async (event) => {
     await setForm(prev => ({
         ...prev,

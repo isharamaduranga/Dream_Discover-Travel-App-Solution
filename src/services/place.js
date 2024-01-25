@@ -31,3 +31,35 @@ export async function getPlaceByPlaceId(placeId) {
   apiObject.urlencoded = false
   return await ApiService.callApi(apiObject)
 }
+
+export async function updateRateScoreInPlaceWithFeedback(placeId) {
+  const apiObject = {}
+  apiObject.method = "POST"
+  apiObject.authentication = false
+  apiObject.endpoint = `places/scoreAndUpdate/${placeId}`
+  apiObject.isBasicAuth = false
+  apiObject.urlencoded = false
+  return await ApiService.callApi(apiObject)
+}
+
+export async function searchPlaceByTypeText(searchText) {
+  const apiObject = {}
+  apiObject.method = "GET"
+  apiObject.authentication = false
+  apiObject.endpoint = `placesWithComments/search/${searchText}`
+  apiObject.isBasicAuth = false
+  apiObject.urlencoded = false
+  return await ApiService.callApi(apiObject)
+}
+
+export async function searchPlaceByTag_Min_Max(placeDetails) {
+  const apiObject = {}
+  apiObject.method = "POST"
+  apiObject.authentication = false
+  apiObject.endpoint = `places/getByPlace`
+  apiObject.isBasicAuth = false
+  apiObject.urlencoded = false
+  apiObject.multipart = true
+  apiObject.body = placeDetails
+  return await ApiService.callApi(apiObject)
+}

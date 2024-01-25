@@ -96,6 +96,8 @@ const AddNewPlace = () => {
     }
   }
 
+
+
   const apiHandler = () => {
     if (validatePlaceDetails(form)) {
       setLoading(true)
@@ -104,6 +106,7 @@ const AddNewPlace = () => {
         .then((response) => {
           if (response.data) {
             toast.success(response.message)
+            clearFields()
             navigate(PLACES_PATH)
           } else {
             toast.error(response.message)

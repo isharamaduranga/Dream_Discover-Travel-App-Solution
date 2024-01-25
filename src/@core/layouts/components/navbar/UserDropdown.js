@@ -12,7 +12,7 @@ import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdow
 
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
-import { IS_LOGIN, LOGIN_PATH, USER_LOGIN_DETAILS } from "@src/router/RouteConstant";
+import { IS_LOGIN, LOGIN_PATH, USER_LOGIN_DETAILS } from "@src/router/RouteConstant"
 import { HOME_PATH } from "@src/router/routes/route-constant"
 
 const UserDropdown = () => {
@@ -22,6 +22,14 @@ const UserDropdown = () => {
     localStorage.removeItem(USER_LOGIN_DETAILS)
      navigate(LOGIN_PATH)
   }
+  const user = localStorage.getItem(USER_LOGIN_DETAILS)
+  const role = localStorage.getItem('')
+  const userObj = JSON.parse(user)
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle
@@ -31,13 +39,13 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">John Doe</span>
-          <span className="user-status">Admin</span>
+          <span className="user-name fw-bold fs-5">{userObj ? capitalizeFirstLetter(userObj.username) : 'John Doe'}</span>
+          <span className="user-status fs-6">{capitalizeFirstLetter(role?.toLowerCase() || 'User')}</span>
         </div>
         <Avatar
           img={defaultAvatar}
-          imgHeight="40"
-          imgWidth="40"
+          imgHeight="45"
+          imgWidth="45"
           status="online"
         />
       </DropdownToggle>

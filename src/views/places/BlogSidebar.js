@@ -84,17 +84,9 @@ const BlogSidebar = () => {
       <div className='sidebar'>
         <div className='blog-sidebar right-sidebar my-2 my-lg-0'>
           <div className='right-sidebar-content'>
-            <div className='blog-search'>
-              <InputGroup className='input-group-merge'>
-                <Input placeholder='Search here' />
-                <InputGroupText>
-                  <Icon.Search size={14} />
-                </InputGroupText>
-              </InputGroup>
-            </div>
             {data !== null ? (
               <Fragment>
-                <div className='blog-recent-posts mt-3'>
+                <div className='blog-recent-posts mt-4'>
                   <h6 className='section-label'>Recent Posts</h6>
                   <div className='mt-75'>{renderRecentPosts()}</div>
                 </div>
