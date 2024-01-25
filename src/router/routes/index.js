@@ -35,7 +35,7 @@ const AddNewPlace = lazy(() => import("../../views/places/add_new_place"))
 const Login = lazy(() => import("../../views/Login"))
 const Register = lazy(() => import("../../views/Register"))
 const ForgotPassword = lazy(() => import("../../views/ForgotPassword"))
-const Error = lazy(() => import("../../views/Error"))
+
 
 
 // ** Merge Routes
@@ -103,13 +103,6 @@ const Routes = [
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
-    meta: {
-      layout: "blank"
-    }
-  },
-  {
-    path: "/error",
-    element: <Error />,
     meta: {
       layout: "blank"
     }

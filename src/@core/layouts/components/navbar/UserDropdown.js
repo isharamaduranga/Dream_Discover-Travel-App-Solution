@@ -13,18 +13,33 @@ import { Button, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdow
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg"
 import { IS_LOGIN, LOGIN_PATH, USER_LOGIN_DETAILS } from "@src/router/RouteConstant"
-import { HOME_PATH } from "@src/router/routes/route-constant"
+import { useEffect, useState } from "react"
+import { getUserById } from "@src/services/user"
 
 const UserDropdown = () => {
   const navigate = useNavigate()
+  const [date, setData] = useState(null)
   const handleLogOut = () => {
     localStorage.removeItem(IS_LOGIN)
     localStorage.removeItem(USER_LOGIN_DETAILS)
-     navigate(LOGIN_PATH)
+    navigate(LOGIN_PATH)
   }
   const user = localStorage.getItem(USER_LOGIN_DETAILS)
-  const role = localStorage.getItem('')
+  const role = localStorage.getItem("")
   const userObj = JSON.parse(user)
+
+  useEffect(() => {
+    const getUserDetailsById = (user_id) => {
+      getUserById(user_id)
+        .then((response) => {
+            if (response.data) {
+              setData(response.data)
+            }
+          }
+        )
+    }
+    getUserDetailsById(userObj.user_id)
+  }, [user])
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
@@ -39,11 +54,12 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold fs-5">{userObj ? capitalizeFirstLetter(userObj.username) : 'John Doe'}</span>
-          <span className="user-status fs-6">{capitalizeFirstLetter(role?.toLowerCase() || 'User')}</span>
+          <span
+            className="user-name fw-bold fs-5">{userObj ? capitalizeFirstLetter(userObj.username) : "John Doe"}</span>
+          <span className="user-status fs-6">{capitalizeFirstLetter(role?.toLowerCase() || "User")}</span>
         </div>
         <Avatar
-          img={defaultAvatar}
+          img={date?.user_img || defaultAvatar}
           imgHeight="45"
           imgWidth="45"
           status="online"

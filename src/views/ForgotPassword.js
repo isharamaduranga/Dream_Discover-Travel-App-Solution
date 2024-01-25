@@ -21,7 +21,7 @@ import {
 
 // ** Illustrations Imports
 import illustrationsLight from "@src/assets/images/pages/forgot-password-v2.svg";
-import illustrationsDark from "@src/assets/images/pages/forgot-password-v2-dark.svg";
+
 
 // ** Styles
 import "@styles/react/pages/page-authentication.scss";
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
   // ** Hooks
   const { skin } = useSkin();
 
-  const source = skin === "dark" ? illustrationsDark : illustrationsLight;
+  const source = skin === "dark" ? illustrationsLight : illustrationsLight
 
   return (
     <div className="auth-wrapper auth-cover">

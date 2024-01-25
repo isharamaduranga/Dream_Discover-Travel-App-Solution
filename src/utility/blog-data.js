@@ -6,35 +6,32 @@ import banner3 from "../assets/images/home/category/camping.jpg"
 import banner4 from "../assets/images/home/category/wild_life.jpg"
 
 export const BlogData = {
-  // blog list
-
-
   // sidebar
   blogSidebar: {
     recentPosts: [
       {
         img: banner1,
         title: "Lorem ipsum dolor sit amet.",
-        id: 7,
-        createdTime: "Jan 14 2020"
+        id: 1,
+        createdTime: "Jan 14 2023"
       },
       {
         img: banner2,
         title: "Lorem ipsum dolor sit amet.",
-        id: 8,
-        createdTime: "Mar 04 2020"
+        id: 2,
+        createdTime: "Mar 04 2023"
       },
       {
         img: banner3,
         title: "Lorem ipsum dolor sit amet.",
-        id: 9,
-        createdTime: "Feb 18 2020"
+        id: 3,
+        createdTime: "Feb 18 2023"
       },
       {
         img: banner4,
         title: "Lorem ipsum dolor sit amet.",
-        id: 10,
-        createdTime: "Oct 08 2020"
+        id: 4,
+        createdTime: "Oct 08 2023"
       }
     ],
     categories: [

@@ -137,7 +137,8 @@ const AddNewPlace = () => {
   }
   return (
     <>
-      {loading === true ? (
+      {
+        loading === true ? (
         <SpinnerComponent />
       ) : (
         <div className="blog-edit-wrapper">

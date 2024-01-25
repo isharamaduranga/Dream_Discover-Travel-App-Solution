@@ -24,6 +24,16 @@ export async function loginExistingClient(userCredentials) {
   return await ApiService.callApi(apiObject)
 }
 
+export async function getUserById(userId) {
+  const apiObject = {}
+  apiObject.method = 'GET'
+  apiObject.authentication = false
+  apiObject.endpoint = `users/${userId}`
+  apiObject.isBasicAuth = false
+  apiObject.urlencoded = false
+  return await ApiService.callApi(apiObject)
+}
+
 export async function createNewComment(userDetails) {
   const apiObject = {}
   apiObject.method = "POST"

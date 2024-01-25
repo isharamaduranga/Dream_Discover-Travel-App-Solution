@@ -1,18 +1,13 @@
 
 import banner from '../images/home/banner.png'
 import logo from '../images/logo/logo.ico'
-import sky from '../images/home/sky.jpg'
-import sriLanka from './home/sriLanka.png'
-import travelLogo from './home/travelLogo.png'
-import wave1 from './home/wave1.png'
-import wave2 from './home/wave2.png'
 import facebook from './home/facebook-icon.png'
 import instagram from './home/instagram-icon.png'
 import twitter from './home/twitter-icon.png'
 import whatsapp from './home/whatsapp-icon.png'
 import linkedin from './home/linkedin-icon.png'
 import snapchat from './home/snapchat-icon.png'
-import elephant_new from './home/elephant_new.png'
+
 
 import adventure from './home/category/adventure.jpg'
 import wild_life from './home/category/wild_life.jpg'
@@ -30,28 +25,17 @@ import nature_cover from './category/nature_cover.jpg'
 import camping_cover from './category/camping_cover.jpg'
 import ancient_cover from './category/ancient_cover.jpg'
 import festive_cover from './category/festive_cover.jpg'
-
-import featuredImg from './places/avatar/avatar-s-4.jpg'
-import emptyImg from './places/empty.jpg'
-import user from './places/user.png'
-import sinharaja_forest from './logo/sinharaja_forest.jpg'
+import emptyImg from './home/empty.jpg'
 
 export const Assets = {
   logo:logo,
   banner:banner,
-  sky:sky,
-  sriLanka:sriLanka,
-  travelLogo:travelLogo,
-  wave1:wave1,
-  wave2:wave2,
   facebook:facebook,
   instagram:instagram,
   twitter:twitter,
   whatsapp:whatsapp,
   linkedin:linkedin,
   snapchat:snapchat,
-
-  elephant_new:elephant_new,
   travel_grid:travel_grid,
 
 
@@ -70,10 +54,6 @@ export const Assets = {
   camping_cover:camping_cover,
   ancient_cover:ancient_cover,
   festive_cover:festive_cover,
-
-  featuredImg:featuredImg,
-  emptyImg:emptyImg,
-  user:user,
-  sinharaja_forest:sinharaja_forest
+  emptyImg:emptyImg
 
 }
